@@ -4,6 +4,8 @@
     🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF Repo</a> • 📃 <a href="https://arxiv.org" target="_blank">Paper</a>
 </p>
 
+https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
+
 ## 🔍 Table of Contents
 - [⚙️ LongWriter Deployment](#deployment)
 - [🤖️ AgentWrite](#agentwrite)
