@@ -40,6 +40,9 @@ CUDA_VISIBLE_DEVICES=0 python trans_web_demo.py
 
 <a name="agentwrite"></a>
 ## 🤖️ AgentWrite
+
+![agentwrite](https://github.com/user-attachments/assets/5d80314b-eab6-4945-848d-0db8e23ffc90)
+
 We are also open-sourcing AgentWrite under `agentwrite/`, our automated ultra-long output data construction pipeline. Run `plan.py` and then `write.py` to obtain the final data. Please configure your API key in the files.
 
 
@@ -56,12 +59,17 @@ You can mix it with your own general SFT data. We adopt the code in [LongAlign](
 
 <a name="evaluation"></a>
 ## 📊 Evaluation
-We introduce two evaluation benchmarks: **LongBench-Write** and **LongWrite-Ruler**.
+We introduce two evaluation benchmarks: **LongBench-Write** and **LongWrite-Ruler**. **LongBench-Write** focuses more on measuring the long output quality as well as the output length, while **LongWrite-Ruler** is designed as a light-weight stress test of the model's maximum output length.
 We provide our evaluation data and code under `evaluation/`. Run
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python pred.py
 ```
 to get model responses. Then run `python eval_quality.py` and `python eval_length.py` to evaluate the quality ($S_q$) and length ($S_l$) scores. Remember to configure your OpenAI API key in `eval_quality.py` since we adopt GPT-4o as the judge.
+Here are the evaluation results on LongBench-Write:
+<img width="1000" alt="longbench-write" src="https://github.com/user-attachments/assets/8dbb6c02-09c4-4319-bd38-f1135457cd25">
+Here are the evaluation results on LongWrite-Ruler:
+![longwrite-ruler](https://github.com/user-attachments/assets/471f6e74-ab2c-4ad7-b73f-9ec8d2c2cde5)
+
 
 <a name="case"></a>
 ## 👀 Cases
