@@ -6,6 +6,8 @@
 
 https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
 
+Left: LongWriter-glm4-9b; Right: GLM-4-9B-chat
+
 ## 🔍 Table of Contents
 - [⚙️ LongWriter Deployment](#deployment)
 - [🤖️ AgentWrite](#agentwrite)
