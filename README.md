@@ -1,7 +1,7 @@
 # LongWriter: Unleashing 10,000+ Word Generation From Long Context LLMs
 
 <p align="center">
-    🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF Repo</a> • 📃 <a href="https://arxiv.org" target="_blank">Paper</a>
+    🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF Repo</a> • 📃 <a href="https://arxiv.org/pdf/2408.07055" target="_blank">Paper</a>
 </p>
 
 https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
