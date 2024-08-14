@@ -1,7 +1,7 @@
 # LongWriter: Unleashing 10,000+ Word Generation From Long Context LLMs
 
 <p align="center">
-    🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF Repo</a> • 📃 <a href="https://arxiv.org/pdf/2408.07055" target="_blank">Paper</a>
+    🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF Repo</a> • 📃 <a href="https://arxiv.org/abs/2408.07055" target="_blank">Paper</a>
 </p>
 
 https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
@@ -682,5 +682,10 @@ As the moon cast its silvery glow over the garden, Eliza and Thomas's love story
 If you find our work useful, please kindly cite:
 
 ```
-
+@article{bai2024longwriter,
+  title={LongWriter: Unleashing 10,000+ Word Generation from Long Context LLMs}, 
+  author={Yushi Bai and Jiajie Zhang and Xin Lv and Linzhi Zheng and Siqi Zhu and Lei Hou and Yuxiao Dong and Jie Tang and Juanzi Li},
+  journal={arXiv preprint arXiv:2408.07055},
+  year={2024}
+}
 ```
