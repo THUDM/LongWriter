@@ -20,7 +20,7 @@ Left: LongWriter-glm4-9b; Right: GLM-4-9B-chat
 ## ⚙️ LongWriter Deployment
 
 **Environmental Setup**:
-Install the requirements with pip: `pip install -r requirements.txt`. For Llama-3.1 based models, we recommend using `transformers==4.43.0` or higher version.
+We recommend using `transformers==4.43.0` to successfully deploy our models. For LongWriter-glm4-9b model, please make sure to install FlashAttention 2 according to the code base of [FlashAttention](https://github.com/Dao-AILab/flash-attention).
 
 We open-source two models: [LongWriter-glm4-9b](https://huggingface.co/THUDM/LongWriter-glm4-9b) and [LongWriter-llama3.1-8b](https://huggingface.co/THUDM/LongWriter-llama3.1-8b), trained based on [GLM-4-9B](https://huggingface.co/THUDM/glm-4-9b) and [Meta-Llama-3.1-8B](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B), respectively. These two models point to the "LongWriter-9B-DPO" and "LongWriter-8B" models in our paper. Try the model:
 ```python
