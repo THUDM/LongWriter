@@ -1,6 +1,6 @@
 tqdm
 numpy
-torch
-transformers==4.33.0
+torch>=2.2.0
+transformers>=4.43.0
 datasets
-einops
+einops>=0.8.0
