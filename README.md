@@ -1,3 +1,4 @@
+![longwriter](https://github.com/user-attachments/assets/d931d4a7-fb5d-4b9c-af54-12bdc875f8e1)
 # LongWriter: Unleashing 10,000+ Word Generation From Long Context LLMs
 
 <p align="center">
