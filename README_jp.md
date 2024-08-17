@@ -2,44 +2,43 @@
 <img src="https://github.com/user-attachments/assets/d931d4a7-fb5d-4b9c-af54-12bdc875f8e1" width="80%" alt="longwriter">
 </p>
 
-# LongWriter: Unleashing 10,000+ Word Generation From Long Context LLMs
+# LongWriter: 長文コンテキストLLMsから10,000語以上の生成を解き放つ
 
 <p align="center">
-    🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF Repo</a> • 📃 <a href="https://arxiv.org/abs/2408.07055" target="_blank">Paper</a> • 🚀 <a href="https://huggingface.co/spaces/THUDM/LongWriter" target="_blank">HF Space</a>
+    🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF リポジトリ</a> • 📃 <a href="https://arxiv.org/abs/2408.07055" target="_blank">論文</a> • 🚀 <a href="https://huggingface.co/spaces/THUDM/LongWriter" target="_blank">HF スペース</a>
 </p>
 
 [English](./README.md) | [中文](./README_zh.md) | [日本語](./README_jp.md)
 
 https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
 
-Left: LongWriter-glm4-9b; Right: GLM-4-9B-chat
+左: LongWriter-glm4-9b; 右: GLM-4-9B-chat
 
-## 🔍 Table of Contents
-- [⚙️ LongWriter Deployment](#deployment)
+## 🔍 目次
+- [⚙️ LongWriter デプロイ](#deployment)
 - [🤖️ AgentWrite](#agentwrite)
-- [🖥️ Model Training](#longwriter-training)
-- [📊 Evaluation](#evaluation)
-- [👀 Cases](#case)
-- [📝 Citation](#citation)
+- [🖥️ モデルトレーニング](#longwriter-training)
+- [📊 評価](#evaluation)
+- [👀 ケース](#case)
+- [📝 引用](#citation)
 
 <a name="deployment"></a>
-## ⚙️ LongWriter Deployment
+## ⚙️ LongWriter デプロイ
 
-**Environmental Setup**:
-We recommend using `transformers>=4.43.0` to successfully deploy our models.
+**環境設定**：モデルを正常にデプロイするために、`transformers>=4.43.0` を使用することをお勧めします。
 
-We open-source two models: [LongWriter-glm4-9b](https://huggingface.co/THUDM/LongWriter-glm4-9b) and [LongWriter-llama3.1-8b](https://huggingface.co/THUDM/LongWriter-llama3.1-8b), trained based on [GLM-4-9B](https://huggingface.co/THUDM/glm-4-9b) and [Meta-Llama-3.1-8B](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B), respectively. These two models point to the "LongWriter-9B-DPO" and "LongWriter-8B" models in our paper. Try the model:
+私たちは2つのモデルをオープンソース化しました：[LongWriter-glm4-9b](https://huggingface.co/THUDM/LongWriter-glm4-9b) と [LongWriter-llama3.1-8b](https://huggingface.co/THUDM/LongWriter-llama3.1-8b)、それぞれ [GLM-4-9B](https://huggingface.co/THUDM/glm-4-9b) と [Meta-Llama-3.1-8B](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B) に基づいて訓練されています。これら2つのモデルは、論文中の「LongWriter-9B-DPO」と「LongWriter-8B」に対応しています。モデルを試してみてください：
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 tokenizer = AutoTokenizer.from_pretrained("THUDM/LongWriter-glm4-9b", trust_remote_code=True)
 model = AutoModelForCausalLM.from_pretrained("THUDM/LongWriter-glm4-9b", torch_dtype=torch.bfloat16, trust_remote_code=True, device_map="auto")
 model = model.eval()
-query = "Write a 10000-word China travel guide"
+query = "中国旅行ガイドを10000語で書いてください"
 response, history = model.chat(tokenizer, query, history=[], max_new_tokens=32768, temperature=0.5)
 print(response)
 ```
-You may deploy your own LongWriter chatbot (like the one we show in the teasor video) by running
+以下のコマンドを実行して、独自のLongWriterチャットボットをデプロイすることができます（予告動画で紹介したものと同じように）：
 ```
 CUDA_VISIBLE_DEVICES=0 python trans_web_demo.py
 ```
@@ -49,42 +48,39 @@ CUDA_VISIBLE_DEVICES=0 python trans_web_demo.py
 
 ![agentwrite](https://github.com/user-attachments/assets/5d80314b-eab6-4945-848d-0db8e23ffc90)
 
-We are also open-sourcing AgentWrite under `agentwrite/`, our automated ultra-long output data construction pipeline. Run `plan.py` and then `write.py` to obtain the final data. Please configure your API key in the files.
-
+また、`agentwrite/` 内に AgentWrite、超長出力データの自動生成パイプラインをオープンソース化しました。`plan.py` を実行し、その後 `write.py` を実行して最終データを取得してください。ファイル内でAPIキーを設定してください。
 
 <a name="longwriter-training"></a>
-## 🖥️ Model Training
+## 🖥️ モデルトレーニング
 
-You can download and save the **LongWriter-6k** data through the Hugging Face datasets ([🤗 HF Repo](https://huggingface.co/datasets/THUDM/LongWriter-6k)):
+Hugging Faceデータセットを通じて **LongWriter-6k** データをダウンロードして保存することができます（[🤗 HF リポジトリ](https://huggingface.co/datasets/THUDM/LongWriter-6k)）：
 ```python
 dataset = load_dataset('THUDM/LongWriter-6k')
 for split, split_dataset in dataset.items():
     split_dataset.to_json("train/LongWriter-6k.jsonl")
 ```
-You can mix it with your own general SFT data. We adopt the code and environment in [LongAlign](https://github.com/THUDM/LongAlign) for model training (we use `transformers==4.43.0` for training on Llama-3.1), with slight modification to adapt to new models. The training code is under `train/`. Please make sure to install FlashAttention 2 according to the code base of [FlashAttention](https://github.com/Dao-AILab/flash-attention).
+独自の一般的なSFTデータと混ぜて使用することができます。モデルトレーニングには [LongAlign](https://github.com/THUDM/LongAlign) のコードと環境を採用しています（Llama-3.1 上でのトレーニングには `transformers==4.43.0` を使用していますが）、新しいモデルに適応するためにわずかな変更を加えています。トレーニングコードは `train/` ディレクトリ内にあります。 [FlashAttention](https://github.com/Dao-AILab/flash-attention) のコードベースに従って FlashAttention 2 をインストールするようにしてください。
 
 <a name="evaluation"></a>
-## 📊 Evaluation
-We introduce two evaluation benchmarks: **LongBench-Write** and **LongWrite-Ruler**. **LongBench-Write** focuses more on measuring the long output quality as well as the output length, while **LongWrite-Ruler** is designed as a light-weight stress test of the model's maximum output length.
-We provide our evaluation data and code under `evaluation/`. Run
+## 📊 評価
+私たちは、2つの評価基準を導入しました：**LongBench-Write** と **LongWrite-Ruler**。**LongBench-Write** は長い出力の質および出力の長さを測定することに重点を置き、**LongWrite-Ruler** はモデルの最大出力長さの軽量ストレステストとして設計されています。評価データとコードは `evaluation/` ディレクトリ内に提供されています。以下のコマンドを実行して
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python pred.py
 ```
-to get model responses. Then run `python eval_quality.py` and `python eval_length.py` to evaluate the quality ($S_q$) and length ($S_l$) scores. Remember to configure your OpenAI API key in `eval_quality.py` since we adopt GPT-4o as the judge.
+モデルの応答を取得します。その後 `python eval_quality.py` と `python eval_length.py` を実行して、質（$S_q$）と長さ（$S_l$）のスコアを評価します。GPT-4oを審査として採用しているため、`eval_quality.py` 内に OpenAI APIキーを設定することを忘れないでください。
 
-Here are the evaluation results on **LongBench-Write**:
+以下は **LongBench-Write** の評価結果です：
 <img width="1000" alt="longbench-write" src="https://github.com/user-attachments/assets/8dbb6c02-09c4-4319-bd38-f1135457cd25">
-Here are the evaluation results on **LongWrite-Ruler**:
+以下は **LongWrite-Ruler** の評価結果です：
 ![longwrite-ruler](https://github.com/user-attachments/assets/471f6e74-ab2c-4ad7-b73f-9ec8d2c2cde5)
 
-
 <a name="case"></a>
-## 👀 Cases
-Here are LongWriter-glm4-9b's outputs to random test prompts.
+## 👀 ケース
+以下は、ランダムテストプロンプトに対する LongWriter-glm4-9b の出力です。
 
-*User: Write a tragic love story about a lord's daughter falling in love with a servant, 5000 words.*
+*ユーザー：Write a tragic love story about a lord's daughter falling in love with a servant, 5000 words.*
 <details>
-<summary>Assistant: (6176 words)</summary>
+<summary>アシスタント：（6176語）</summary>
 <div style="max-height: 200px; overflow-y: auto; padding: 10px; border: 1px solid #e1e4e8; border-radius: 6px;">
 
 ### The Aristocratic Estate
@@ -311,9 +307,9 @@ As the moon cast its silvery glow over the garden, Eliza and Thomas's love story
 </details>
 <br/>
 
-*User: 写一篇10000字的中国旅游指南*
+*ユーザー：写一篇10000字的中国旅游指南*
 <details>
-<summary>Assistant: (10691字)</summary>
+<summary>アシスタント：（10691語）</summary>
 <div style="max-height: 200px; overflow-y: auto; padding: 10px; border: 1px solid #e1e4e8; border-radius: 6px;">
 
 ### 中国旅游概述
@@ -683,9 +679,9 @@ As the moon cast its silvery glow over the garden, Eliza and Thomas's love story
 </details>
 
 <a name="citation"></a>
-## 📝 Citation
+## 📝 引用
 
-If you find our work useful, please kindly cite:
+私たちの論文の引用をご検討ください。
 
 ```
 @article{bai2024longwriter,

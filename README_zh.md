@@ -2,44 +2,43 @@
 <img src="https://github.com/user-attachments/assets/d931d4a7-fb5d-4b9c-af54-12bdc875f8e1" width="80%" alt="longwriter">
 </p>
 
-# LongWriter: Unleashing 10,000+ Word Generation From Long Context LLMs
+# LongWriter：释放长上下文LLM的10,000+字生成能力
 
 <p align="center">
-    🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF Repo</a> • 📃 <a href="https://arxiv.org/abs/2408.07055" target="_blank">Paper</a> • 🚀 <a href="https://huggingface.co/spaces/THUDM/LongWriter" target="_blank">HF Space</a>
+    🤗 <a href="https://huggingface.co/datasets/THUDM/LongWriter-6k" target="_blank">HF 仓库</a> • 📃 <a href="https://arxiv.org/abs/2408.07055" target="_blank">论文</a> • 🚀 <a href="https://huggingface.co/spaces/THUDM/LongWriter" target="_blank">HF 空间</a>
 </p>
 
 [English](./README.md) | [中文](./README_zh.md) | [日本語](./README_jp.md)
 
 https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
 
-Left: LongWriter-glm4-9b; Right: GLM-4-9B-chat
+左：LongWriter-glm4-9b；右：GLM-4-9B-chat
 
-## 🔍 Table of Contents
-- [⚙️ LongWriter Deployment](#deployment)
+## 🔍 目录
+- [⚙️ LongWriter 部署](#deployment)
 - [🤖️ AgentWrite](#agentwrite)
-- [🖥️ Model Training](#longwriter-training)
-- [📊 Evaluation](#evaluation)
-- [👀 Cases](#case)
-- [📝 Citation](#citation)
+- [🖥️ 模型训练](#longwriter-training)
+- [📊 评估](#evaluation)
+- [👀 案例](#case)
+- [📝 引用](#citation)
 
 <a name="deployment"></a>
-## ⚙️ LongWriter Deployment
+## ⚙️ LongWriter 部署
 
-**Environmental Setup**:
-We recommend using `transformers>=4.43.0` to successfully deploy our models.
+**环境设置**：我们建议使用 `transformers>=4.43.0` 来成功部署我们的模型。
 
-We open-source two models: [LongWriter-glm4-9b](https://huggingface.co/THUDM/LongWriter-glm4-9b) and [LongWriter-llama3.1-8b](https://huggingface.co/THUDM/LongWriter-llama3.1-8b), trained based on [GLM-4-9B](https://huggingface.co/THUDM/glm-4-9b) and [Meta-Llama-3.1-8B](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B), respectively. These two models point to the "LongWriter-9B-DPO" and "LongWriter-8B" models in our paper. Try the model:
+我们开源了两个模型：[LongWriter-glm4-9b](https://huggingface.co/THUDM/LongWriter-glm4-9b) 和 [LongWriter-llama3.1-8b](https://huggingface.co/THUDM/LongWriter-llama3.1-8b)，分别基于 [GLM-4-9B](https://huggingface.co/THUDM/glm-4-9b) 和 [Meta-Llama-3.1-8B](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B) 训练。这两个模型对应于我们论文中的 “LongWriter-9B-DPO” 和 “LongWriter-8B” 模型。试用该模型：
 ```python
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 tokenizer = AutoTokenizer.from_pretrained("THUDM/LongWriter-glm4-9b", trust_remote_code=True)
 model = AutoModelForCausalLM.from_pretrained("THUDM/LongWriter-glm4-9b", torch_dtype=torch.bfloat16, trust_remote_code=True, device_map="auto")
 model = model.eval()
-query = "Write a 10000-word China travel guide"
+query = "写一篇10000字的中国旅游指南"
 response, history = model.chat(tokenizer, query, history=[], max_new_tokens=32768, temperature=0.5)
 print(response)
 ```
-You may deploy your own LongWriter chatbot (like the one we show in the teasor video) by running
+你也可以通过运行以下命令部署自己的 LongWriter 聊天机器人（如我们在demo视频中展示的那样）：
 ```
 CUDA_VISIBLE_DEVICES=0 python trans_web_demo.py
 ```
@@ -49,42 +48,39 @@ CUDA_VISIBLE_DEVICES=0 python trans_web_demo.py
 
 ![agentwrite](https://github.com/user-attachments/assets/5d80314b-eab6-4945-848d-0db8e23ffc90)
 
-We are also open-sourcing AgentWrite under `agentwrite/`, our automated ultra-long output data construction pipeline. Run `plan.py` and then `write.py` to obtain the final data. Please configure your API key in the files.
-
+我们还在 `agentwrite/` 目录下开源了 AgentWrite，这是一种自动化的超长输出数据的构建流程。运行 `plan.py` 然后运行 `write.py` 以获得最终的数据。请在文件中配置您的 API 密钥。
 
 <a name="longwriter-training"></a>
-## 🖥️ Model Training
+## 🖥️ 模型训练
 
-You can download and save the **LongWriter-6k** data through the Hugging Face datasets ([🤗 HF Repo](https://huggingface.co/datasets/THUDM/LongWriter-6k)):
+你可以通过 Hugging Face 数据集下载并保存 **LongWriter-6k** 数据（[🤗 HF 仓库](https://huggingface.co/datasets/THUDM/LongWriter-6k)）：
 ```python
 dataset = load_dataset('THUDM/LongWriter-6k')
 for split, split_dataset in dataset.items():
     split_dataset.to_json("train/LongWriter-6k.jsonl")
 ```
-You can mix it with your own general SFT data. We adopt the code and environment in [LongAlign](https://github.com/THUDM/LongAlign) for model training (we use `transformers==4.43.0` for training on Llama-3.1), with slight modification to adapt to new models. The training code is under `train/`. Please make sure to install FlashAttention 2 according to the code base of [FlashAttention](https://github.com/Dao-AILab/flash-attention).
+你可以将它与自己的通用 SFT 数据混合使用。我们采用了 [LongAlign](https://github.com/THUDM/LongAlign) 中的代码和环境进行模型训练（我们使用 `transformers==4.43.0` 在 Llama-3.1 上进行训练），并进行了较少修改以适应新模型。训练代码在 `train/` 目录下。请确保根据 [FlashAttention](https://github.com/Dao-AILab/flash-attention) 的代码库安装 FlashAttention 2。
 
 <a name="evaluation"></a>
-## 📊 Evaluation
-We introduce two evaluation benchmarks: **LongBench-Write** and **LongWrite-Ruler**. **LongBench-Write** focuses more on measuring the long output quality as well as the output length, while **LongWrite-Ruler** is designed as a light-weight stress test of the model's maximum output length.
-We provide our evaluation data and code under `evaluation/`. Run
+## 📊 评估
+我们引入了两个评估基准：**LongBench-Write** 和 **LongWrite-Ruler**。**LongBench-Write** 更侧重于衡量长输出的质量以及输出的长度，而 **LongWrite-Ruler** 则设计为对模型最大输出长度的轻量级压力测试。我们在 `evaluation/` 目录下提供了我们的评估数据和代码。运行
 ```bash
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python pred.py
 ```
-to get model responses. Then run `python eval_quality.py` and `python eval_length.py` to evaluate the quality ($S_q$) and length ($S_l$) scores. Remember to configure your OpenAI API key in `eval_quality.py` since we adopt GPT-4o as the judge.
+以获得模型回复。然后运行 `python eval_quality.py` 和 `python eval_length.py` 以评估质量 ($S_q$) 和长度 ($S_l$) 得分。请记得在 `eval_quality.py` 中配置你的 OpenAI API 密钥，因为我们采用了 GPT-4o 作为评审。
 
-Here are the evaluation results on **LongBench-Write**:
+以下是 **LongBench-Write** 上的评估结果：
 <img width="1000" alt="longbench-write" src="https://github.com/user-attachments/assets/8dbb6c02-09c4-4319-bd38-f1135457cd25">
-Here are the evaluation results on **LongWrite-Ruler**:
+以下是 **LongWrite-Ruler** 上的评估结果：
 ![longwrite-ruler](https://github.com/user-attachments/assets/471f6e74-ab2c-4ad7-b73f-9ec8d2c2cde5)
 
-
 <a name="case"></a>
-## 👀 Cases
-Here are LongWriter-glm4-9b's outputs to random test prompts.
+## 👀 案例
+以下是 LongWriter-glm4-9b 对随机测试提示词的输出。
 
-*User: Write a tragic love story about a lord's daughter falling in love with a servant, 5000 words.*
+*用户：Write a tragic love story about a lord's daughter falling in love with a servant, 5000 words.*
 <details>
-<summary>Assistant: (6176 words)</summary>
+<summary>AI助手：（6176字）</summary>
 <div style="max-height: 200px; overflow-y: auto; padding: 10px; border: 1px solid #e1e4e8; border-radius: 6px;">
 
 ### The Aristocratic Estate
@@ -311,9 +307,9 @@ As the moon cast its silvery glow over the garden, Eliza and Thomas's love story
 </details>
 <br/>
 
-*User: 写一篇10000字的中国旅游指南*
+*用户：写一篇10000字的中国旅游指南*
 <details>
-<summary>Assistant: (10691字)</summary>
+<summary>AI助手：（10691字）</summary>
 <div style="max-height: 200px; overflow-y: auto; padding: 10px; border: 1px solid #e1e4e8; border-radius: 6px;">
 
 ### 中国旅游概述
@@ -683,9 +679,9 @@ As the moon cast its silvery glow over the garden, Eliza and Thomas's love story
 </details>
 
 <a name="citation"></a>
-## 📝 Citation
+## 📝 引用
 
-If you find our work useful, please kindly cite:
+请考虑引用我们的论文：
 
 ```
 @article{bai2024longwriter,
