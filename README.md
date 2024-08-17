@@ -24,7 +24,7 @@ Left: LongWriter-glm4-9b; Right: GLM-4-9B-chat
 ## ⚙️ LongWriter Deployment
 
 **Environmental Setup**:
-We recommend using `transformers==4.43.0` to successfully deploy our models. For LongWriter-glm4-9b model, please make sure to install FlashAttention 2 according to the code base of [FlashAttention](https://github.com/Dao-AILab/flash-attention).
+We recommend using `transformers>=4.43.0` to successfully deploy our models.
 
 We open-source two models: [LongWriter-glm4-9b](https://huggingface.co/THUDM/LongWriter-glm4-9b) and [LongWriter-llama3.1-8b](https://huggingface.co/THUDM/LongWriter-llama3.1-8b), trained based on [GLM-4-9B](https://huggingface.co/THUDM/glm-4-9b) and [Meta-Llama-3.1-8B](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B), respectively. These two models point to the "LongWriter-9B-DPO" and "LongWriter-8B" models in our paper. Try the model:
 ```python
@@ -59,7 +59,7 @@ dataset = load_dataset('THUDM/LongWriter-6k')
 for split, split_dataset in dataset.items():
     split_dataset.to_json("train/LongWriter-6k.jsonl")
 ```
-You can mix it with your own general SFT data. We adopt the code in [LongAlign](https://github.com/THUDM/LongAlign) for model training (we use `transformers==4.43.0` for training on Llama-3.1), with slight modification to adapt to new models. The training code is under `train/`. Please make sure to install FlashAttention 2 according to the code base of [FlashAttention](https://github.com/Dao-AILab/flash-attention).
+You can mix it with your own general SFT data. We adopt the code and environment in [LongAlign](https://github.com/THUDM/LongAlign) for model training (we use `transformers==4.43.0` for training on Llama-3.1), with slight modification to adapt to new models. The training code is under `train/`. Please make sure to install FlashAttention 2 according to the code base of [FlashAttention](https://github.com/Dao-AILab/flash-attention).
 
 <a name="evaluation"></a>
 ## 📊 Evaluation

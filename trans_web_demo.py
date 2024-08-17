@@ -97,7 +97,9 @@ def predict(history, prompt, max_length, top_p, temperature):
     t = Thread(target=model.generate, kwargs=generate_kwargs)
     t.start()
     for new_token in streamer:
-        if new_token and '<|user|>' not in new_token:
+        if new_token and '<|user|>' in new_token:
+            new_token = new_token.split('<|user|>')[0]
+        if new_token:
             history[-1][1] += new_token
         yield history
 
