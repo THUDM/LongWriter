@@ -14,6 +14,9 @@ https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
 
 左: LongWriter-glm4-9b; 右: GLM-4-9B-chat
 
+## 🔥 更新
+**[2024年8月18日]** 現在、[vllm](https://github.com/vllm-project/vllm)を使用してLongWriterモデルをデプロイすることができます。コードは[vllm_inference.py](https://github.com/THUDM/LongWriter/blob/main/vllm_inference.py)に記載されており、超高速の生成を体験できます。**1分以内に10,000字以上を生成することが可能です！**
+
 ## 🔍 目次
 - [⚙️ LongWriter デプロイ](#deployment)
 - [🤖️ AgentWrite](#agentwrite)
@@ -42,6 +45,7 @@ print(response)
 ```
 CUDA_VISIBLE_DEVICES=0 python trans_web_demo.py
 ```
+あるいは、[vllm](https://github.com/vllm-project/vllm)を使用してモデルをデプロイすることもできます。これにより、1分以内に10,000字以上を生成することが可能です！[vllm_inference.py](https://github.com/THUDM/LongWriter/blob/main/vllm_inference.py)のコード例を参照してください。
 
 <a name="agentwrite"></a>
 ## 🤖️ AgentWrite

@@ -14,6 +14,9 @@ https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
 
 左：LongWriter-glm4-9b；右：GLM-4-9B-chat
 
+## 🔥 更新
+**[2024年8月18日]** 您现在可以使用[vllm](https://github.com/vllm-project/vllm)部署LongWriter模型。请参考[vllm_inference.py](https://github.com/THUDM/LongWriter/blob/main/vllm_inference.py)中的代码，体验闪电般快速的生成。它可以在**一分钟内生成超过10,000个字**！
+
 ## 🔍 目录
 - [⚙️ LongWriter 部署](#deployment)
 - [🤖️ AgentWrite](#agentwrite)
@@ -42,6 +45,7 @@ print(response)
 ```
 CUDA_VISIBLE_DEVICES=0 python trans_web_demo.py
 ```
+或者，您可以使用[vllm](https://github.com/vllm-project/vllm)部署模型，体验在一分钟内生成10,000多个字。请参见[vllm_inference.py](https://github.com/THUDM/LongWriter/blob/main/vllm_inference.py)中的代码示例。
 
 <a name="agentwrite"></a>
 ## 🤖️ AgentWrite

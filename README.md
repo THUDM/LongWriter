@@ -14,6 +14,9 @@ https://github.com/user-attachments/assets/c7eedeca-98ed-43ec-8619-25137987bcde
 
 Left: LongWriter-glm4-9b; Right: GLM-4-9B-chat
 
+## 🔥 Updates
+**[2024/08/18]** You can now deploy the LongWriter model using [vllm](https://github.com/vllm-project/vllm). Refer to the code in [vllm_inference.py](https://github.com/THUDM/LongWriter/blob/main/vllm_inference.py) and experience lightning-fast generation. It can **generate over 10,000+ words in just one minute**!
+
 ## 🔍 Table of Contents
 - [⚙️ LongWriter Deployment](#deployment)
 - [🤖️ AgentWrite](#agentwrite)
@@ -43,6 +46,7 @@ You may deploy your own LongWriter chatbot (like the one we show in the teasor v
 ```
 CUDA_VISIBLE_DEVICES=0 python trans_web_demo.py
 ```
+Alternatively, you can deploy the model with [vllm](https://github.com/vllm-project/vllm), which allows generating 10,000+ words within a minute! See the code example in [vllm_inference.py](https://github.com/THUDM/LongWriter/blob/main/vllm_inference.py).
 
 <a name="agentwrite"></a>
 ## 🤖️ AgentWrite
