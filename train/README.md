@@ -22,4 +22,4 @@ We provide training scripts under `scripts/` for the GLM-4-9B and Llama-3.1-8B m
 
 To support packing training, we provide patch files under `patch/`, please replace the original modeling files with them.
 
-**Environment**: `transformers==4.33.0`
+**Environment**: `transformers==4.33.0` for `GLM-4-9B` and `transformers==4.43.0` for `Llama-3.1-8B`.
