@@ -21,3 +21,5 @@ to organize the tokenized data for packing training.
 We provide training scripts under `scripts/` for the GLM-4-9B and Llama-3.1-8B model series. Make sure to adjust `--model_name_or_path`, `--train_file`, and `--output_dir` to match your model path, data path, and output path.
 
 To support packing training, we provide patch files under `patch/`, please replace the original modeling files with them.
+
+**Environment**: `transformers==4.33.0`
