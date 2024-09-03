@@ -22,6 +22,8 @@ We provide training scripts under `scripts/` for the GLM-4-9B and Llama-3.1-8B m
 
 To support packing training, we provide patch files under `patch/`, please replace the original modeling files with them.
 
+**Environment**: `transformers==4.33.0` for `GLM-4-9B` and `transformers==4.43.0` for `Llama-3.1-8B`.
+
 ### FAQ
 1. Error when running training script: ⚠️`DeepSpeedZeroConfig
 stage3_prefetch_bucket_size Input should be a valid integer, got a number with a fractional part`. **This may happen if your `deepspeed>=0.15.0`, we suggest downgrade to `deepspeed==0.14.4` to resolve this issue.**
