@@ -21,3 +21,9 @@ to organize the tokenized data for packing training.
 We provide training scripts under `scripts/` for the GLM-4-9B and Llama-3.1-8B model series. Make sure to adjust `--model_name_or_path`, `--train_file`, and `--output_dir` to match your model path, data path, and output path.
 
 To support packing training, we provide patch files under `patch/`, please replace the original modeling files with them.
+
+### FAQ
+1. Error when running training script: ⚠️`DeepSpeedZeroConfig
+stage3_prefetch_bucket_size Input should be a valid integer, got a number with a fractional part`. **This may happen if your `deepspeed>=0.15.0`, we suggest downgrade to `deepspeed==0.14.4` to resolve this issue.**
+2. Error when training GLM-4-9b: ⚠️`return self.mergeable_ranks[token] KeyError: '<|endoftext|>'`. **Please make sure you have replaced the `tokenization_chatglm.py` and `modeling_chatglm.py` files under the GLM-4-9b model folder by the patch files under `patch/`. Also make sure your environment satisfy the requirements: `transformers==4.33.0` and `flash-attn>=2.0.0`.**
+3. Encountered during GLM-4-9b training: ⚠️`RuntimeError: shape '[32768, -1, 1, 32, 2]' is invalid for...`. **Please modify the `"seq_length"` in `config.json` of GLM-4-9b from 8192 to 131072.**
