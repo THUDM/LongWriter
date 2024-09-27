@@ -12,4 +12,4 @@ Already written text:
 
 $TEXT$
 
-Please integrate the original writing instruction, writing steps, and the already written text, and now continue writing $STEP$. If needed, you can add a small subtitle at the beginning. Remember to only output the paragraph you write, without repeating the already written text.
+Please integrate the original writing instruction, writing steps, and the already written text, and now continue writing $STEP$. If needed, you can add a small subtitle at the beginning. Remember to only output the paragraph you write, without repeating the already written text. As this is an ongoing work, omit open-ended conclusions or other rhetorical hooks.
