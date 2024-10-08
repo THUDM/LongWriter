@@ -4,3 +4,4 @@ torch>=2.2.0
 transformers>=4.43.0
 datasets
 einops>=0.8.0
+vllm==0.6.2
